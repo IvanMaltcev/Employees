@@ -1,4 +1,4 @@
-package com.sky.employee.service;
+package com.sky.employee.model;
 
 import java.util.Objects;
 
@@ -23,7 +23,10 @@ public class Employee {
 
     @Override
     public String toString() {
-        return firstName + " " + lastName;
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
     }
 
     @Override
