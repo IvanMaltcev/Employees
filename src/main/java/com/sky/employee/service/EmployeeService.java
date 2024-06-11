@@ -2,7 +2,7 @@ package com.sky.employee.service;
 
 import com.sky.employee.model.Employee;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface EmployeeService {
 
@@ -12,5 +12,5 @@ public interface EmployeeService {
 
     Employee findEmployee(String firstName, String lastName);
 
-    List<Employee> getListOfEmployees();
+    Collection<Employee> getListOfEmployees();
 }
