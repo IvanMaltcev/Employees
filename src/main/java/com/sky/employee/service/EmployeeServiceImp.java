@@ -6,56 +6,54 @@ import com.sky.employee.exception.EmployeeAlreadyAddedException;
 import com.sky.employee.model.Employee;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class EmployeeServiceImp implements EmployeeService {
 
-    private final List<Employee> employees;
+    private final Map<String, Employee> employees;
     private static final byte MAX_AMOUNT_EMPLOYEES = 10;
-    private Employee employee;
 
     public EmployeeServiceImp() {
-        this.employees = new ArrayList<>();
+        this.employees = new HashMap<>();
     }
 
     @Override
-    public Employee addEmployee(String firstName, String lastName) {
+    public Employee addEmployee(String firstName, String lastName, int salary, int department) {
         if (employees.size() >= MAX_AMOUNT_EMPLOYEES) {
 
             throw new EmployeeStorageIsFullException("Превышен лимит количества сотрудников в фирме!");
         }
-        employee = new Employee(firstName, lastName);
-        if (!employees.contains(employee)) {
-            employees.add(employee);
-            return employee;
+        final Employee employee = new Employee(firstName, lastName, salary, department);
+        if (employees.containsKey(employee.getFullName())) {
+            throw new EmployeeAlreadyAddedException("Такой сотрудник уже существует!");
+        } else {
+            employees.put(employee.getFullName(), employee);
         }
-        throw new EmployeeAlreadyAddedException("Такой сотрудник уже существует!");
+        return employees.get(employee.getFullName());
+
     }
 
     @Override
     public Employee removeEmployee(String firstName, String lastName) {
-        employee = new Employee(firstName, lastName);
-        if (employees.contains(employee)) {
-            employees.remove(employee);
-            return employee;
-        }
-        throw new EmployeeNotFoundException("Сотрудник не найден!");
+        return employees.remove(employees.values().stream()
+                .filter(e -> e.getFullName().equals(firstName + " " + lastName))
+                .findAny()
+                .orElseThrow(() -> new EmployeeNotFoundException("Сотрудник не найден!"))
+                .getFullName());
+
     }
 
     @Override
     public Employee findEmployee(String firstName, String lastName) {
-        employee = new Employee(firstName, lastName);
-        if (employees.contains(employee)) {
-            return employee;
-        }
-        throw new EmployeeNotFoundException("Сотрудник не найден!");
+        return employees.values().stream()
+                .filter(e -> e.getFullName().equals(firstName + " " + lastName))
+                .findAny()
+                .orElseThrow(() -> new EmployeeNotFoundException("Сотрудник не найден!"));
     }
 
     @Override
-    public List<Employee> getListOfEmployees() {
-        return Collections.unmodifiableList(employees);
+    public Collection<Employee> getListOfEmployees() {
+        return Collections.unmodifiableCollection(employees.values());
     }
 }

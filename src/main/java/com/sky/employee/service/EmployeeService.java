@@ -2,15 +2,15 @@ package com.sky.employee.service;
 
 import com.sky.employee.model.Employee;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface EmployeeService {
 
-    Employee addEmployee(String firstName, String lastName);
+    Employee addEmployee(String firstName, String lastName, int salary, int department);
 
     Employee removeEmployee(String firstName, String lastName);
 
     Employee findEmployee(String firstName, String lastName);
 
-    List<Employee> getListOfEmployees();
+    Collection<Employee> getListOfEmployees();
 }
