@@ -4,8 +4,8 @@ import com.sky.employee.exception.EmployeeNotFoundException;
 import com.sky.employee.model.Employee;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class DepartmentServiceImp implements DepartmentService {
@@ -36,10 +36,18 @@ public class DepartmentServiceImp implements DepartmentService {
     }
 
     @Override
-    public List<Employee> getListOfAllEmployees() {
+    public Map<Integer, List<Employee>> getListOfAllEmployees() {
         return employeeService.getListOfEmployees().stream()
-                .sorted(Comparator.comparingInt(e -> e.getDepartment()))
-                .toList();
+                .collect(Collectors.groupingBy(
+                                it -> it.getDepartment(),
+                                Collectors.mapping(
+                                        it -> new Employee(it.getFirstName(), it.getLastName(),
+                                                it.getSalary(), it.getDepartment()),
+                                        Collectors.toList()
+                                )
+                        )
+
+                );
     }
 
     private List<Employee> findEmployeesByDepartment(int departmentNumber) {

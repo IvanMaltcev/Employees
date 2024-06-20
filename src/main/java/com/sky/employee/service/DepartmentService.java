@@ -3,6 +3,7 @@ package com.sky.employee.service;
 import com.sky.employee.model.Employee;
 
 import java.util.List;
+import java.util.Map;
 
 public interface DepartmentService {
 
@@ -12,6 +13,6 @@ public interface DepartmentService {
 
     List<Employee> getListOfEmployeesByDepartment(int department);
 
-    List<Employee> getListOfAllEmployees();
+    Map<Integer, List<Employee>> getListOfAllEmployees();
 
 }
