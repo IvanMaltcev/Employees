@@ -7,6 +7,7 @@ import java.util.Map;
 
 public interface DepartmentService {
 
+    int sumSalaryByDepartment(int department);
     Employee findEmployeeWithMaxSalaryByDepartment(int department);
 
     Employee findEmployeeWithMinSalaryByDepartment(int department);

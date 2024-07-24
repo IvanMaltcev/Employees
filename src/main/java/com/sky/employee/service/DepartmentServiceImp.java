@@ -17,6 +17,13 @@ public class DepartmentServiceImp implements DepartmentService {
     }
 
     @Override
+    public int sumSalaryByDepartment(int department) {
+        return findEmployeesByDepartment(department).stream()
+                .mapToInt(Employee::getSalary)
+                .sum();
+    }
+
+    @Override
     public Employee findEmployeeWithMaxSalaryByDepartment(int department) {
         return findEmployeesByDepartment(department).stream()
                 .max(Comparator.comparingInt(e -> e.getSalary()))

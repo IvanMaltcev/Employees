@@ -14,7 +14,7 @@ import java.util.*;
 public class EmployeeServiceImp implements EmployeeService {
 
     private final Map<String, Employee> employees;
-    private static final byte MAX_AMOUNT_EMPLOYEES = 10;
+    private static final byte MAX_AMOUNT_EMPLOYEES = 6;
 
     public EmployeeServiceImp() {
         this.employees = new HashMap<>();
@@ -78,7 +78,7 @@ public class EmployeeServiceImp implements EmployeeService {
         if (StringUtils.isAlpha(string)) {
             return StringUtils.capitalize(string.toLowerCase());
         } else {
-            throw new EmployeeIsNotValidException("Не верно введены имя или фамилия");
+            throw new EmployeeIsNotValidException("Не верно введены имя или фамилия!");
         }
     }
 }
